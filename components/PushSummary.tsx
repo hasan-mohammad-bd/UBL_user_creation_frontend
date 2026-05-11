@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { apiUrl } from "@/lib/api";
 
 interface PushResult {
   successful: number;
@@ -197,7 +198,7 @@ export default function PushSummary({ result }: Props) {
       {/* Credential download */}
       {result.credentialReportUrl && (
         <a
-          href={`/api${result.credentialReportUrl}`}
+          href={apiUrl(result.credentialReportUrl)}
           download
           className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
         >

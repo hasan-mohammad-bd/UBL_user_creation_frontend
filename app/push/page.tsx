@@ -7,6 +7,7 @@ import PushProgress from "@/components/PushProgress";
 import ActivityLog from "@/components/ActivityLog";
 import PushSummary from "@/components/PushSummary";
 import { useToast } from "@/components/Toast";
+import { apiUrl, wsUrl } from "@/lib/api";
 
 interface LogEntry {
   index: number;
@@ -60,8 +61,7 @@ export default function PushPage() {
 
   const connectWebSocket = useCallback(
     (sid: string) => {
-      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-      const ws = new WebSocket(`${protocol}//${window.location.hostname}:8000/ws/push/${sid}`);
+      const ws = new WebSocket(wsUrl(`/ws/push/${sid}`));
       wsRef.current = ws;
 
       ws.onopen = () => {
@@ -157,7 +157,7 @@ export default function PushPage() {
 
     // Start push
     try {
-      const res = await fetch("/api/push/start", {
+      const res = await fetch(apiUrl("/push/start"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -184,7 +184,7 @@ export default function PushPage() {
 
   const handleStop = async () => {
     try {
-      const res = await fetch("/api/push/stop", {
+      const res = await fetch(apiUrl("/push/stop"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ session_id: sessionId }),

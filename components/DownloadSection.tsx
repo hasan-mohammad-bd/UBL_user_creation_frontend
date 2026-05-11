@@ -1,5 +1,7 @@
 "use client";
 
+import { apiUrl } from "@/lib/api";
+
 interface Props {
   downloadLinks: Record<string, string>;
 }
@@ -26,7 +28,7 @@ export default function DownloadSection({ downloadLinks }: Props) {
           return (
             <a
               key={key}
-              href={`/api${url}`}
+              href={apiUrl(url)}
               download
               className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors"
             >

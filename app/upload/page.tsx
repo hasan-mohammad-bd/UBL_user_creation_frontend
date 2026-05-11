@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import AgencySelector from "@/components/AgencySelector";
 import FileUploader from "@/components/FileUploader";
 import { useToast } from "@/components/Toast";
+import { apiUrl } from "@/lib/api";
 
 export default function UploadPage() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function UploadPage() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch(`/api/uploader/?agency_id=${agencyId}`, {
+      const res = await fetch(apiUrl(`/uploader/?agency_id=${agencyId}`), {
         method: "POST",
         body: formData,
       });

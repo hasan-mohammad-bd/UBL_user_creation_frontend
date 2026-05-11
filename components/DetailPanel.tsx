@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { apiUrl } from "@/lib/api";
 
 function formatTable(headers: string[], rows: string[][], title: string): string {
   const colWidths = headers.map((h, i) =>
@@ -64,7 +65,7 @@ export default function DetailPanel({ detailType, sessionId, downloadLinks }: Pr
 
     if (detailType === "under18") {
       // JSON file
-      fetch(`/api${url}`)
+      fetch(apiUrl(url))
         .then((r) => {
           if (!r.ok) throw new Error("Failed to fetch");
           return r.json();
@@ -74,7 +75,7 @@ export default function DetailPanel({ detailType, sessionId, downloadLinks }: Pr
         .finally(() => setLoading(false));
     } else {
       // CSV file — parse it
-      fetch(`/api${url}`)
+      fetch(apiUrl(url))
         .then((r) => {
           if (!r.ok) throw new Error("Failed to fetch");
           return r.text();

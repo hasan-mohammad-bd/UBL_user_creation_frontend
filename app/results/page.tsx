@@ -7,6 +7,7 @@ import ErrorPanel from "@/components/ErrorPanel";
 import DownloadSection from "@/components/DownloadSection";
 import PreviewTable from "@/components/PreviewTable";
 import DetailPanel from "@/components/DetailPanel";
+import { apiUrl } from "@/lib/api";
 
 interface UploadResult {
   session_id: string;
@@ -34,7 +35,7 @@ export default function ResultsPage() {
     // Fetch the valid users for preview
     if (data.download_links.output_file) {
       setLoadingPreview(true);
-      fetch(`/api${data.download_links.output_file}`)
+      fetch(apiUrl(data.download_links.output_file))
         .then((r) => r.json())
         .then((users) => setValidUsers(users))
         .catch(() => { })

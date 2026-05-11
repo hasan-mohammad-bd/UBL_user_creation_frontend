@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import HealthIndicator from "@/components/HealthIndicator";
+import { apiUrl } from "@/lib/api";
 
 export default function HomePage() {
   const [healthy, setHealthy] = useState<boolean | null>(null);
@@ -10,7 +11,7 @@ export default function HomePage() {
   useEffect(() => {
     const check = async () => {
       try {
-        const res = await fetch("/api/health/");
+        const res = await fetch(apiUrl("/health/"));
         setHealthy(res.ok);
       } catch {
         setHealthy(false);
