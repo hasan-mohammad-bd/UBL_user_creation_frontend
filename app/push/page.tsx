@@ -57,6 +57,9 @@ export default function PushPage() {
     const vc = sessionStorage.getItem("pushValidCount") || "0";
     setSessionId(sid);
     setValidCount(Number(vc));
+
+    const storedToken = localStorage.getItem("ubl_bulk_user_creation_token") || "";
+    if (storedToken) setToken(storedToken);
   }, []);
 
   const connectWebSocket = useCallback(

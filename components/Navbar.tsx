@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getUser, logout, type LoginUser } from "@/lib/auth";
 
 const links = [
   { href: "/", label: "Dashboard" },
@@ -12,6 +14,17 @@ const links = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = useState<LoginUser | null>(null);
+
+  useEffect(() => {
+    setUser(getUser());
+  }, [pathname]);
+
+  const handleLogout = () => {
+    logout();
+    router.replace("/login");
+  };
 
   return (
     <nav className="bg-white border-b border-slate-200 shadow-sm">
@@ -20,7 +33,7 @@ export default function Navbar() {
           <Link href="/" className="text-lg font-bold text-blue-800">
             UBL Creator
           </Link>
-          <div className="flex space-x-1">
+          <div className="flex items-center space-x-1">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -33,6 +46,20 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <div className="flex items-center pl-3 ml-2 border-l border-slate-200 space-x-3">
+              {user && (
+                <span className="text-sm text-slate-500 hidden sm:inline">
+                  {user.username}
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+              >
+                Log Out
+              </button>
+            </div>
           </div>
         </div>
       </div>

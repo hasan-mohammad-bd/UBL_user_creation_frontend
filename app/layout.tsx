@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import AuthGuard from "@/components/AuthGuard";
 import { ToastProvider } from "@/components/Toast";
 
 export const metadata: Metadata = {
@@ -17,10 +17,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen" suppressHydrationWarning>
         <ToastProvider>
-          <Navbar />
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {children}
-          </main>
+          <AuthGuard>{children}</AuthGuard>
         </ToastProvider>
       </body>
     </html>
