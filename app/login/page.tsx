@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { isAuthenticated, login } from "@/lib/auth";
 
@@ -34,8 +35,16 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-        <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold text-blue-800">UBL Creator</h1>
+        <div className="mb-6 flex flex-col items-center text-center">
+          <Image
+            src="/logo.png"
+            alt="UBL logo"
+            width={72}
+            height={72}
+            priority
+            className="mb-3"
+          />
+          <h1 className="text-2xl font-bold text-blue-800">UBL User Creator</h1>
           <p className="text-slate-500 mt-1 text-sm">
             Sign in to continue
           </p>

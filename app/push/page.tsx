@@ -36,6 +36,7 @@ export default function PushPage() {
   const [token, setToken] = useState("");
   const [startIndex, setStartIndex] = useState(0);
 
+  const [showToken, setShowToken] = useState(false);
   const [pushing, setPushing] = useState(false);
   const [processed, setProcessed] = useState(0);
   const [total, setTotal] = useState(0);
@@ -258,7 +259,52 @@ export default function PushPage() {
       {/* Pre-push */}
       {!completed && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
-          <TokenInput token={token} onChange={setToken} />
+          <button
+            type="button"
+            onClick={() => setShowToken((v) => !v)}
+            aria-expanded={showToken}
+            className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors group"
+          >
+            <span className="flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-4 h-4 text-blue-700"
+              >
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              <span className="text-sm font-medium text-slate-800">
+                JWT Bearer Token
+              </span>
+              {token.trim() && (
+                <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">
+                  Set
+                </span>
+              )}
+            </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={`w-4 h-4 text-slate-500 transition-transform ${
+                showToken ? "rotate-180" : ""
+              }`}
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+
+          {showToken && <TokenInput token={token} onChange={setToken} />}
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
