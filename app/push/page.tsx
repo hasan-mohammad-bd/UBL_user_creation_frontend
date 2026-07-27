@@ -3,6 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import TokenInput from "@/components/TokenInput";
+import ApprovalStatusSelector, {
+  APPROVED_STATUS_WITH_TRAINING,
+  type ApprovedStatus,
+} from "@/components/ApprovalStatusSelector";
 import PushProgress from "@/components/PushProgress";
 import ActivityLog from "@/components/ActivityLog";
 import PushSummary from "@/components/PushSummary";
@@ -35,6 +39,9 @@ export default function PushPage() {
   const [validCount, setValidCount] = useState(0);
   const [token, setToken] = useState("");
   const [startIndex, setStartIndex] = useState(0);
+  const [approvedStatus, setApprovedStatus] = useState<ApprovedStatus>(
+    APPROVED_STATUS_WITH_TRAINING
+  );
 
   const [showToken, setShowToken] = useState(false);
   const [pushing, setPushing] = useState(false);
@@ -139,8 +146,12 @@ export default function PushPage() {
   const handleStartPush = async () => {
     if (!token.trim() || !sessionId) return;
 
+    const modeLabel =
+      approvedStatus === APPROVED_STATUS_WITH_TRAINING
+        ? "WITH training"
+        : "WITHOUT training";
     const confirmed = window.confirm(
-      `You are about to create ${validCount} user accounts in PRODUCTION. This action cannot be undone. Continue?`
+      `You are about to create ${validCount} user accounts in PRODUCTION, enrolled ${modeLabel} (approved_status ${approvedStatus}). This action cannot be undone. Continue?`
     );
     if (!confirmed) return;
 
@@ -168,6 +179,7 @@ export default function PushPage() {
           session_id: sessionId,
           token: token.trim(),
           start_index: startIndex,
+          approved_status: approvedStatus,
         }),
       });
 
@@ -305,6 +317,12 @@ export default function PushPage() {
           </button>
 
           {showToken && <TokenInput token={token} onChange={setToken} />}
+
+          <ApprovalStatusSelector
+            value={approvedStatus}
+            onChange={setApprovedStatus}
+            disabled={pushing}
+          />
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
