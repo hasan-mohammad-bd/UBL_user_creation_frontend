@@ -1,7 +1,7 @@
 "use client";
 
 export const APPROVED_STATUS_WITH_TRAINING = 177;
-export const APPROVED_STATUS_WITHOUT_TRAINING = 6;
+export const APPROVED_STATUS_WITHOUT_TRAINING = 4;
 
 export type ApprovedStatus =
   | typeof APPROVED_STATUS_WITH_TRAINING
