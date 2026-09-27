@@ -39,9 +39,8 @@ export default function PushPage() {
   const [validCount, setValidCount] = useState(0);
   const [token, setToken] = useState("");
   const [startIndex, setStartIndex] = useState(0);
-  const [approvedStatus, setApprovedStatus] = useState<ApprovedStatus>(
-    APPROVED_STATUS_WITH_TRAINING
-  );
+  // No default: the operator must pick a mode explicitly.
+  const [approvedStatus, setApprovedStatus] = useState<ApprovedStatus | null>(null);
 
   const [showToken, setShowToken] = useState(false);
   const [pushing, setPushing] = useState(false);
@@ -144,7 +143,7 @@ export default function PushPage() {
   );
 
   const handleStartPush = async () => {
-    if (!token.trim() || !sessionId) return;
+    if (!token.trim() || !sessionId || approvedStatus === null) return;
 
     const modeLabel =
       approvedStatus === APPROVED_STATUS_WITH_TRAINING
@@ -339,7 +338,7 @@ export default function PushPage() {
 
           <div className="flex gap-3">
             <button
-              disabled={!token.trim() || pushing}
+              disabled={!token.trim() || approvedStatus === null || pushing}
               onClick={handleStartPush}
               className="flex-1 py-3 bg-blue-700 text-white rounded-lg font-medium hover:bg-blue-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >

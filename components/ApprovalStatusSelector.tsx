@@ -21,7 +21,7 @@ const OPTIONS: { value: ApprovedStatus; label: string; hint: string }[] = [
 ];
 
 interface Props {
-  value: ApprovedStatus;
+  value: ApprovedStatus | null;
   onChange: (value: ApprovedStatus) => void;
   disabled?: boolean;
 }
@@ -32,6 +32,9 @@ export default function ApprovalStatusSelector({ value, onChange, disabled }: Pr
       <label className="block text-sm font-medium text-slate-700 mb-2">
         Enrolment Mode
       </label>
+      {value === null && (
+        <p className="text-xs text-amber-700 mb-2">Select an enrolment mode before starting the push.</p>
+      )}
       <div className="grid grid-cols-2 gap-3">
         {OPTIONS.map((opt) => {
           const selected = value === opt.value;
